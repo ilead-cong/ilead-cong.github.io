@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content=#58b77a>
+  <title>jinja &amp; pyechart联合构建html报告 | pluaron&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="cong wang">
+  <meta name="keywords" content="">
+  <meta name="description" content="Bioinformatics learning experience">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '0.4.4',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/dist/images/log.jpg">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/theme-lx@0.4.4/source/dist/css/main.min.css">
+  
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/theme-lx@0.4.4/source/dist/js/jquery.jside.menu.min.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+<body>
+<div class="single">
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Search..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<div id="page">
+<div class="header">
+  <div id="lx-aside" style="background-image: url(/dist/images/post_cover.min.jpeg)" data-stellar-background-ratio="0.5">
+    <div class="overlay">
+      <a href="javascript:;" class="popup-trigger" title="search"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+      <div class="page-title">
+        <div class="avatar"><a href="/"><img src="/dist/images/log.jpg" alt="cong wang"></a></div>
+        <span>2024-06-05</span>
+        <h2>jinja & pyec...</h2>
+        <div class="tags"><i class="fa fa-tag"></i><a class="tag-none-link" href="/tags/report/" rel="tag">report</a></div>
+        <div class="social-links">
+    <a href="https://github.com/ilead-cong" target="_blank" title="social-link"><i class="fa fa-github fa-fw"></i></a>
+    <a href="2119452560@qq.com" target="_blank" title="social-link"><i class="fa fa-envelope fa-fw"></i></a>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h1 id="jinja-pyechart联合构建html报告"><a href="#jinja-pyechart联合构建html报告" class="headerlink" title="jinja&amp;pyechart联合构建html报告"></a><code>jinja</code>&amp;<code>pyechart</code>联合构建html报告</h1><p><a target="_blank" rel="noopener" href="https://github.com/pyecharts/pyecharts">pyechart</a>是一个具有良好交互性和精巧图表设计的开源的数据可视化python包；<a target="_blank" rel="noopener" href="https://github.com/pallets/jinja">Jinja</a> 是一款快速、富有表现力且可扩展的模板引擎，模板中的特殊占位符允许编写类似于 Python 语法的代码。二者结合，能便捷有效的生成数据分析报告。</p>
+<span id="more"></span>
+
+<h2 id="jinja-pyechart安装"><a href="#jinja-pyechart安装" class="headerlink" title="jinja&amp;pyechart安装"></a><code>jinja</code>&amp;<code>pyechart</code>安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">pyecharts</span></span><br><span class="line">pip install pyecharts</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">jinja</span></span><br><span class="line">pip install Jinja2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="直接插入html"><a href="#直接插入html" class="headerlink" title="直接插入html"></a>直接插入html</h2><h3 id="input"><a href="#input" class="headerlink" title="input"></a>input</h3><p>html模板</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>&#123;&#123; title &#125;&#125;<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">body</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">font-family</span>: Arial, sans-serif;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin</span>: <span class="number">20px</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">h1</span>, <span class="selector-tag">h2</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">color</span>: <span class="number">#333</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">table</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">width</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">border-collapse</span>: collapse;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">th</span>, <span class="selector-tag">td</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">padding</span>: <span class="number">8px</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#ddd</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">text-align</span>: left;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">th</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">background-color</span>: <span class="number">#f2f2f2</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">img</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">max-width</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">height</span>: auto;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">iframe</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">border</span>: none;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;&#123; title &#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Table Data<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Product<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Amount<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        &#123;% for row in table_data %&#125;</span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; row.Product &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; row.Amount &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        &#123;% endfor %&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Chart<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    &#123;&#123; chart_html &#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="process"><a href="#process" class="headerlink" title="process"></a>process</h3><p>python脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> jinja2 <span class="keyword">import</span> Environment, FileSystemLoader</span><br><span class="line"><span class="keyword">from</span> pyecharts <span class="keyword">import</span> options <span class="keyword">as</span> opts</span><br><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Bar</span><br><span class="line"><span class="keyword">from</span> pyecharts.commons.utils <span class="keyword">import</span> JsCode</span><br><span class="line"><span class="keyword">from</span> pyecharts.<span class="built_in">globals</span> <span class="keyword">import</span> ThemeType</span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备数据</span></span><br><span class="line">report_data = &#123;</span><br><span class="line">    <span class="string">&#x27;title&#x27;</span>: <span class="string">&#x27;Sales Report&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;table_data&#x27;</span>: [</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product A&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">1000</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product B&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">1500</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product C&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">2000</span>&#125;,</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">&#x27;image_path&#x27;</span>: <span class="string">&#x27;path/to/image.jpg&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">list2 = [</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">12</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">12</span> / (<span class="number">12</span> + <span class="number">3</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">23</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">23</span> / (<span class="number">23</span> + <span class="number">21</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">33</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">33</span> / (<span class="number">33</span> + <span class="number">5</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">3</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">3</span> / (<span class="number">3</span> + <span class="number">52</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">33</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">33</span> / (<span class="number">33</span> + <span class="number">43</span>)&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">list3 = [</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">3</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">3</span> / (<span class="number">12</span> + <span class="number">3</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">21</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">21</span> / (<span class="number">23</span> + <span class="number">21</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">5</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">5</span> / (<span class="number">33</span> + <span class="number">5</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">52</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">52</span> / (<span class="number">3</span> + <span class="number">52</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">43</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">43</span> / (<span class="number">33</span> + <span class="number">43</span>)&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">c = (</span><br><span class="line">    Bar(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))</span><br><span class="line">    .add_xaxis([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line">    .add_yaxis(<span class="string">&quot;product1&quot;</span>, list2, stack=<span class="string">&quot;stack1&quot;</span>, category_gap=<span class="string">&quot;50%&quot;</span>)</span><br><span class="line">    .add_yaxis(<span class="string">&quot;product2&quot;</span>, list3, stack=<span class="string">&quot;stack1&quot;</span>, category_gap=<span class="string">&quot;50%&quot;</span>)</span><br><span class="line">    .set_series_opts(</span><br><span class="line">        label_opts=opts.LabelOpts(</span><br><span class="line">            position=<span class="string">&quot;right&quot;</span>,</span><br><span class="line">            formatter=JsCode(</span><br><span class="line">                <span class="string">&quot;function(x)&#123;return Number(x.data.percent * 100).toFixed() + &#x27;%&#x27;;&#125;&quot;</span></span><br><span class="line">            ),</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">    .render(<span class="string">&quot;stack_bar_percent.html&quot;</span>)  <span class="comment"># 保存为 HTML 文件</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将图表的 HTML 内容读取为字符串</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;stack_bar_percent.html&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    chart_html = f.read()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备模板数据</span></span><br><span class="line">template_data = &#123;</span><br><span class="line">    <span class="string">&#x27;title&#x27;</span>: <span class="string">&#x27;Sales Report&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;chart_html&#x27;</span>: chart_html,</span><br><span class="line">    <span class="string">&#x27;table_data&#x27;</span>: [</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product A&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">1000</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product B&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">1500</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product C&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">2000</span>&#125;,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建Jinja2环境</span></span><br><span class="line">env = Environment(loader=FileSystemLoader(<span class="string">&#x27;templates&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载报告模板</span></span><br><span class="line">template = env.get_template(<span class="string">&#x27;report_template.html&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 渲染报告模板</span></span><br><span class="line">report = template.render(template_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将报告保存到文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;sales_report.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(report)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="results"><a href="#results" class="headerlink" title="results"></a>results</h3><p><a href="./stack_bar_percent.html">图片的html</a></p>
+<details>
+    <summary>html</summary>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Awesome-pyecharts&lt;/title&gt;
+            &lt;script type=&quot;text/javascript&quot; src=&quot;https://assets.pyecharts.org/assets/echarts.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;b36e75289fd94ccfa574eb707867f493&quot; style=&quot;width:900px; height:500px;&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+        var chart_b36e75289fd94ccfa574eb707867f493 = echarts.init(
+            document.getElementById(&#39;b36e75289fd94ccfa574eb707867f493&#39;), &#39;light&#39;, &#123;renderer: &#39;canvas&#39;&#125;);
+        var option_b36e75289fd94ccfa574eb707867f493 = &#123;
+    &quot;series&quot;: [
+        &#123;
+            &quot;type&quot;: &quot;bar&quot;,
+            &quot;name&quot;: &quot;product1&quot;,
+            &quot;data&quot;: [
+                &#123;
+                    &quot;value&quot;: 12,
+                    &quot;percent&quot;: 0.8
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 23,
+                    &quot;percent&quot;: 0.5227272727272727
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 33,
+                    &quot;percent&quot;: 0.868421052631579
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 3,
+                    &quot;percent&quot;: 0.05454545454545454
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 33,
+                    &quot;percent&quot;: 0.4342105263157895
+                &#125;
+            ],
+            &quot;stack&quot;: &quot;stack1&quot;,
+            &quot;barCategoryGap&quot;: &quot;50%&quot;,
+            &quot;label&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;position&quot;: &quot;right&quot;,
+                &quot;margin&quot;: 8,
+                &quot;formatter&quot;: function(x)&#123;return Number(x.data.percent * 100).toFixed() + &#39;%&#39;;&#125;
+            &#125;,
+            &quot;rippleEffect&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;brushType&quot;: &quot;stroke&quot;,
+                &quot;scale&quot;: 2.5,
+                &quot;period&quot;: 4
+            &#125;
+        &#125;,
+        &#123;
+            &quot;type&quot;: &quot;bar&quot;,
+            &quot;name&quot;: &quot;product2&quot;,
+            &quot;data&quot;: [
+                &#123;
+                    &quot;value&quot;: 3,
+                    &quot;percent&quot;: 0.2
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 21,
+                    &quot;percent&quot;: 0.4772727272727273
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 5,
+                    &quot;percent&quot;: 0.13157894736842105
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 52,
+                    &quot;percent&quot;: 0.9454545454545454
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 43,
+                    &quot;percent&quot;: 0.5657894736842105
+                &#125;
+            ],
+            &quot;stack&quot;: &quot;stack1&quot;,
+            &quot;barCategoryGap&quot;: &quot;50%&quot;,
+            &quot;label&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;position&quot;: &quot;right&quot;,
+                &quot;margin&quot;: 8,
+                &quot;formatter&quot;: function(x)&#123;return Number(x.data.percent * 100).toFixed() + &#39;%&#39;;&#125;
+            &#125;,
+            &quot;rippleEffect&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;brushType&quot;: &quot;stroke&quot;,
+                &quot;scale&quot;: 2.5,
+                &quot;period&quot;: 4
+            &#125;
+        &#125;
+    ],
+    &quot;legend&quot;: [
+        &#123;
+            &quot;data&quot;: [
+                &quot;product1&quot;,
+                &quot;product2&quot;
+            ],
+            &quot;selected&quot;: &#123;
+                &quot;product1&quot;: true,
+                &quot;product2&quot;: true
+            &#125;
+        &#125;
+    ],
+    &quot;tooltip&quot;: &#123;
+        &quot;show&quot;: true,
+        &quot;trigger&quot;: &quot;item&quot;,
+        &quot;triggerOn&quot;: &quot;mousemove|click&quot;,
+        &quot;axisPointer&quot;: &#123;
+            &quot;type&quot;: &quot;line&quot;
+        &#125;,
+        &quot;textStyle&quot;: &#123;
+            &quot;fontSize&quot;: 14
+        &#125;,
+        &quot;borderWidth&quot;: 0
+    &#125;,
+    &quot;xAxis&quot;: [
+        &#123;
+            &quot;show&quot;: true,
+            &quot;scale&quot;: false,
+            &quot;nameLocation&quot;: &quot;end&quot;,
+            &quot;nameGap&quot;: 15,
+            &quot;gridIndex&quot;: 0,
+            &quot;inverse&quot;: false,
+            &quot;offset&quot;: 0,
+            &quot;splitNumber&quot;: 5,
+            &quot;minInterval&quot;: 0,
+            &quot;splitLine&quot;: &#123;
+                &quot;show&quot;: false,
+                &quot;lineStyle&quot;: &#123;
+                    &quot;width&quot;: 1,
+                    &quot;opacity&quot;: 1,
+                    &quot;curveness&quot;: 0,
+                    &quot;type&quot;: &quot;solid&quot;
+                &#125;
+            &#125;,
+            &quot;data&quot;: [
+                1,
+                2,
+                3,
+                4,
+                5
+            ]
+        &#125;
+    ],
+    &quot;yAxis&quot;: [
+        &#123;
+            &quot;show&quot;: true,
+            &quot;scale&quot;: false,
+            &quot;nameLocation&quot;: &quot;end&quot;,
+            &quot;nameGap&quot;: 15,
+            &quot;gridIndex&quot;: 0,
+            &quot;inverse&quot;: false,
+            &quot;offset&quot;: 0,
+            &quot;splitNumber&quot;: 5,
+            &quot;minInterval&quot;: 0,
+            &quot;splitLine&quot;: &#123;
+                &quot;show&quot;: false,
+                &quot;lineStyle&quot;: &#123;
+                    &quot;width&quot;: 1,
+                    &quot;opacity&quot;: 1,
+                    &quot;curveness&quot;: 0,
+                    &quot;type&quot;: &quot;solid&quot;
+                &#125;
+            &#125;
+        &#125;
+    ]
+&#125;;
+        chart_b36e75289fd94ccfa574eb707867f493.setOption(option_b36e75289fd94ccfa574eb707867f493);
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</details>
+
+
+<p><a href="./sales_report.html">报告的html</a></p>
+<details>
+    <summary>html</summary>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Sales Report&lt;/title&gt;
+    &lt;style&gt;
+        body &#123;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        &#125;
+        h1, h2 &#123;
+            color: #333;
+        &#125;
+        table &#123;
+            width: 100%;
+            border-collapse: collapse;
+        &#125;
+        th, td &#123;
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        &#125;
+        th &#123;
+            background-color: #f2f2f2;
+        &#125;
+        img &#123;
+            max-width: 100%;
+            height: auto;
+        &#125;
+        iframe &#123;
+            border: none;
+        &#125;
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Sales Report&lt;/h1&gt;
+
+    &lt;h2&gt;Table Data&lt;/h2&gt;
+    &lt;table&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Product&lt;/th&gt;
+            &lt;th&gt;Amount&lt;/th&gt;
+        &lt;/tr&gt;
+        
+        &lt;tr&gt;
+            &lt;td&gt;Product A&lt;/td&gt;
+            &lt;td&gt;1000&lt;/td&gt;
+        &lt;/tr&gt;
+        
+        &lt;tr&gt;
+            &lt;td&gt;Product B&lt;/td&gt;
+            &lt;td&gt;1500&lt;/td&gt;
+        &lt;/tr&gt;
+        
+        &lt;tr&gt;
+            &lt;td&gt;Product C&lt;/td&gt;
+            &lt;td&gt;2000&lt;/td&gt;
+        &lt;/tr&gt;
+        
+    &lt;/table&gt;
+
+    &lt;h2&gt;Chart&lt;/h2&gt;
+    &lt;!-- 使用 &lt;iframe&gt; 标签插入 HTML 图表 --&gt;
+    &lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Awesome-pyecharts&lt;/title&gt;
+            &lt;script type=&quot;text/javascript&quot; src=&quot;https://assets.pyecharts.org/assets/echarts.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;b36e75289fd94ccfa574eb707867f493&quot; style=&quot;width:900px; height:500px;&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+        var chart_b36e75289fd94ccfa574eb707867f493 = echarts.init(
+            document.getElementById(&#39;b36e75289fd94ccfa574eb707867f493&#39;), &#39;light&#39;, &#123;renderer: &#39;canvas&#39;&#125;);
+        var option_b36e75289fd94ccfa574eb707867f493 = &#123;
+    &quot;series&quot;: [
+        &#123;
+            &quot;type&quot;: &quot;bar&quot;,
+            &quot;name&quot;: &quot;product1&quot;,
+            &quot;data&quot;: [
+                &#123;
+                    &quot;value&quot;: 12,
+                    &quot;percent&quot;: 0.8
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 23,
+                    &quot;percent&quot;: 0.5227272727272727
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 33,
+                    &quot;percent&quot;: 0.868421052631579
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 3,
+                    &quot;percent&quot;: 0.05454545454545454
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 33,
+                    &quot;percent&quot;: 0.4342105263157895
+                &#125;
+            ],
+            &quot;stack&quot;: &quot;stack1&quot;,
+            &quot;barCategoryGap&quot;: &quot;50%&quot;,
+            &quot;label&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;position&quot;: &quot;right&quot;,
+                &quot;margin&quot;: 8,
+                &quot;formatter&quot;: function(x)&#123;return Number(x.data.percent * 100).toFixed() + &#39;%&#39;;&#125;
+            &#125;,
+            &quot;rippleEffect&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;brushType&quot;: &quot;stroke&quot;,
+                &quot;scale&quot;: 2.5,
+                &quot;period&quot;: 4
+            &#125;
+        &#125;,
+        &#123;
+            &quot;type&quot;: &quot;bar&quot;,
+            &quot;name&quot;: &quot;product2&quot;,
+            &quot;data&quot;: [
+                &#123;
+                    &quot;value&quot;: 3,
+                    &quot;percent&quot;: 0.2
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 21,
+                    &quot;percent&quot;: 0.4772727272727273
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 5,
+                    &quot;percent&quot;: 0.13157894736842105
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 52,
+                    &quot;percent&quot;: 0.9454545454545454
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 43,
+                    &quot;percent&quot;: 0.5657894736842105
+                &#125;
+            ],
+            &quot;stack&quot;: &quot;stack1&quot;,
+            &quot;barCategoryGap&quot;: &quot;50%&quot;,
+            &quot;label&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;position&quot;: &quot;right&quot;,
+                &quot;margin&quot;: 8,
+                &quot;formatter&quot;: function(x)&#123;return Number(x.data.percent * 100).toFixed() + &#39;%&#39;;&#125;
+            &#125;,
+            &quot;rippleEffect&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;brushType&quot;: &quot;stroke&quot;,
+                &quot;scale&quot;: 2.5,
+                &quot;period&quot;: 4
+            &#125;
+        &#125;
+    ],
+    &quot;legend&quot;: [
+        &#123;
+            &quot;data&quot;: [
+                &quot;product1&quot;,
+                &quot;product2&quot;
+            ],
+            &quot;selected&quot;: &#123;
+                &quot;product1&quot;: true,
+                &quot;product2&quot;: true
+            &#125;
+        &#125;
+    ],
+    &quot;tooltip&quot;: &#123;
+        &quot;show&quot;: true,
+        &quot;trigger&quot;: &quot;item&quot;,
+        &quot;triggerOn&quot;: &quot;mousemove|click&quot;,
+        &quot;axisPointer&quot;: &#123;
+            &quot;type&quot;: &quot;line&quot;
+        &#125;,
+        &quot;textStyle&quot;: &#123;
+            &quot;fontSize&quot;: 14
+        &#125;,
+        &quot;borderWidth&quot;: 0
+    &#125;,
+    &quot;xAxis&quot;: [
+        &#123;
+            &quot;show&quot;: true,
+            &quot;scale&quot;: false,
+            &quot;nameLocation&quot;: &quot;end&quot;,
+            &quot;nameGap&quot;: 15,
+            &quot;gridIndex&quot;: 0,
+            &quot;inverse&quot;: false,
+            &quot;offset&quot;: 0,
+            &quot;splitNumber&quot;: 5,
+            &quot;minInterval&quot;: 0,
+            &quot;splitLine&quot;: &#123;
+                &quot;show&quot;: false,
+                &quot;lineStyle&quot;: &#123;
+                    &quot;width&quot;: 1,
+                    &quot;opacity&quot;: 1,
+                    &quot;curveness&quot;: 0,
+                    &quot;type&quot;: &quot;solid&quot;
+                &#125;
+            &#125;,
+            &quot;data&quot;: [
+                1,
+                2,
+                3,
+                4,
+                5
+            ]
+        &#125;
+    ],
+    &quot;yAxis&quot;: [
+        &#123;
+            &quot;show&quot;: true,
+            &quot;scale&quot;: false,
+            &quot;nameLocation&quot;: &quot;end&quot;,
+            &quot;nameGap&quot;: 15,
+            &quot;gridIndex&quot;: 0,
+            &quot;inverse&quot;: false,
+            &quot;offset&quot;: 0,
+            &quot;splitNumber&quot;: 5,
+            &quot;minInterval&quot;: 0,
+            &quot;splitLine&quot;: &#123;
+                &quot;show&quot;: false,
+                &quot;lineStyle&quot;: &#123;
+                    &quot;width&quot;: 1,
+                    &quot;opacity&quot;: 1,
+                    &quot;curveness&quot;: 0,
+                    &quot;type&quot;: &quot;solid&quot;
+                &#125;
+            &#125;
+        &#125;
+    ]
+&#125;;
+        chart_b36e75289fd94ccfa574eb707867f493.setOption(option_b36e75289fd94ccfa574eb707867f493);
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</details>
+
+
+<h2 id="使用iframe插入html"><a href="#使用iframe插入html" class="headerlink" title="使用iframe插入html"></a>使用iframe插入html</h2><h3 id="input-1"><a href="#input-1" class="headerlink" title="input"></a>input</h3><p>html模板</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>&#123;&#123; title &#125;&#125;<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">body</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">font-family</span>: Arial, sans-serif;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin</span>: <span class="number">20px</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">h1</span>, <span class="selector-tag">h2</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">color</span>: <span class="number">#333</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">table</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">width</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">border-collapse</span>: collapse;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">th</span>, <span class="selector-tag">td</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">padding</span>: <span class="number">8px</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#ddd</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">text-align</span>: left;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">th</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">background-color</span>: <span class="number">#f2f2f2</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">img</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">max-width</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">height</span>: auto;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">iframe</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">border</span>: none;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">width</span>: <span class="number">100%</span>; <span class="comment">/* 使 iframe 充满整个容器 */</span></span></span><br><span class="line"><span class="language-css">            <span class="attribute">height</span>: <span class="number">500px</span>; <span class="comment">/* 设置 iframe 高度 */</span></span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;&#123; title &#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Table Data<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Product<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Amount<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        &#123;% for row in table_data %&#125;</span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; row.Product &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; row.Amount &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        &#123;% endfor %&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Chart<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 使用 &lt;iframe&gt; 标签插入 HTML 图表 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;&#123;&#123; chart_html &#125;&#125;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="process-1"><a href="#process-1" class="headerlink" title="process"></a>process</h3><p>python脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> jinja2 <span class="keyword">import</span> Environment, FileSystemLoader</span><br><span class="line"><span class="keyword">from</span> pyecharts <span class="keyword">import</span> options <span class="keyword">as</span> opts</span><br><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Bar</span><br><span class="line"><span class="keyword">from</span> pyecharts.commons.utils <span class="keyword">import</span> JsCode</span><br><span class="line"><span class="keyword">from</span> pyecharts.<span class="built_in">globals</span> <span class="keyword">import</span> ThemeType</span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备数据</span></span><br><span class="line">report_data = &#123;</span><br><span class="line">    <span class="string">&#x27;title&#x27;</span>: <span class="string">&#x27;Sales Report&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;table_data&#x27;</span>: [</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product A&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">1000</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product B&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">1500</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product C&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">2000</span>&#125;,</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">&#x27;image_path&#x27;</span>: <span class="string">&#x27;path/to/image.jpg&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">list2 = [</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">12</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">12</span> / (<span class="number">12</span> + <span class="number">3</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">23</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">23</span> / (<span class="number">23</span> + <span class="number">21</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">33</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">33</span> / (<span class="number">33</span> + <span class="number">5</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">3</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">3</span> / (<span class="number">3</span> + <span class="number">52</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">33</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">33</span> / (<span class="number">33</span> + <span class="number">43</span>)&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">list3 = [</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">3</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">3</span> / (<span class="number">12</span> + <span class="number">3</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">21</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">21</span> / (<span class="number">23</span> + <span class="number">21</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">5</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">5</span> / (<span class="number">33</span> + <span class="number">5</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">52</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">52</span> / (<span class="number">3</span> + <span class="number">52</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">43</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">43</span> / (<span class="number">33</span> + <span class="number">43</span>)&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">c = (</span><br><span class="line">    Bar(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))</span><br><span class="line">    .add_xaxis([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line">    .add_yaxis(<span class="string">&quot;product1&quot;</span>, list2, stack=<span class="string">&quot;stack1&quot;</span>, category_gap=<span class="string">&quot;50%&quot;</span>)</span><br><span class="line">    .add_yaxis(<span class="string">&quot;product2&quot;</span>, list3, stack=<span class="string">&quot;stack1&quot;</span>, category_gap=<span class="string">&quot;50%&quot;</span>)</span><br><span class="line">    .set_series_opts(</span><br><span class="line">        label_opts=opts.LabelOpts(</span><br><span class="line">            position=<span class="string">&quot;right&quot;</span>,</span><br><span class="line">            formatter=JsCode(</span><br><span class="line">                <span class="string">&quot;function(x)&#123;return Number(x.data.percent * 100).toFixed() + &#x27;%&#x27;;&#125;&quot;</span></span><br><span class="line">            ),</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">    .render(<span class="string">&quot;stack_bar_percent_iframe.html&quot;</span>)  <span class="comment"># 保存为 HTML 文件</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将图表的 HTML 内容读取为字符串</span></span><br><span class="line"><span class="comment">#with open(&quot;stack_bar_percent_iframe.html&quot;, &quot;r&quot;) as f:</span></span><br><span class="line"><span class="comment">#    chart_html = f.read()</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备模板数据</span></span><br><span class="line">template_data = &#123;</span><br><span class="line">    <span class="string">&#x27;title&#x27;</span>: <span class="string">&#x27;Sales Report&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;chart_html&#x27;</span>: <span class="string">&quot;stack_bar_percent_iframe.html&quot;</span>,</span><br><span class="line">    <span class="string">&#x27;table_data&#x27;</span>: [</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product A&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">1000</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product B&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">1500</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product C&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">2000</span>&#125;,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建Jinja2环境</span></span><br><span class="line">env = Environment(loader=FileSystemLoader(<span class="string">&#x27;templates&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载报告模板</span></span><br><span class="line">template = env.get_template(<span class="string">&#x27;report_template_iframe.html&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 渲染报告模板</span></span><br><span class="line">report = template.render(template_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将报告保存到文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;sales_report_iframe.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(report)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="results-1"><a href="#results-1" class="headerlink" title="results"></a>results</h3><p><a href="./stack_bar_percent_iframe.html">图片的html</a></p>
+<details>
+    <summary>html</summary>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Awesome-pyecharts&lt;/title&gt;
+            &lt;script type=&quot;text/javascript&quot; src=&quot;https://assets.pyecharts.org/assets/echarts.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;852d5339878f4f1bafa2e93fa1cd616a&quot; style=&quot;width:900px; height:500px;&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+        var chart_852d5339878f4f1bafa2e93fa1cd616a = echarts.init(
+            document.getElementById(&#39;852d5339878f4f1bafa2e93fa1cd616a&#39;), &#39;light&#39;, &#123;renderer: &#39;canvas&#39;&#125;);
+        var option_852d5339878f4f1bafa2e93fa1cd616a = &#123;
+    &quot;series&quot;: [
+        &#123;
+            &quot;type&quot;: &quot;bar&quot;,
+            &quot;name&quot;: &quot;product1&quot;,
+            &quot;data&quot;: [
+                &#123;
+                    &quot;value&quot;: 12,
+                    &quot;percent&quot;: 0.8
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 23,
+                    &quot;percent&quot;: 0.5227272727272727
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 33,
+                    &quot;percent&quot;: 0.868421052631579
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 3,
+                    &quot;percent&quot;: 0.05454545454545454
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 33,
+                    &quot;percent&quot;: 0.4342105263157895
+                &#125;
+            ],
+            &quot;stack&quot;: &quot;stack1&quot;,
+            &quot;barCategoryGap&quot;: &quot;50%&quot;,
+            &quot;label&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;position&quot;: &quot;right&quot;,
+                &quot;margin&quot;: 8,
+                &quot;formatter&quot;: function(x)&#123;return Number(x.data.percent * 100).toFixed() + &#39;%&#39;;&#125;
+            &#125;,
+            &quot;rippleEffect&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;brushType&quot;: &quot;stroke&quot;,
+                &quot;scale&quot;: 2.5,
+                &quot;period&quot;: 4
+            &#125;
+        &#125;,
+        &#123;
+            &quot;type&quot;: &quot;bar&quot;,
+            &quot;name&quot;: &quot;product2&quot;,
+            &quot;data&quot;: [
+                &#123;
+                    &quot;value&quot;: 3,
+                    &quot;percent&quot;: 0.2
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 21,
+                    &quot;percent&quot;: 0.4772727272727273
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 5,
+                    &quot;percent&quot;: 0.13157894736842105
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 52,
+                    &quot;percent&quot;: 0.9454545454545454
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 43,
+                    &quot;percent&quot;: 0.5657894736842105
+                &#125;
+            ],
+            &quot;stack&quot;: &quot;stack1&quot;,
+            &quot;barCategoryGap&quot;: &quot;50%&quot;,
+            &quot;label&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;position&quot;: &quot;right&quot;,
+                &quot;margin&quot;: 8,
+                &quot;formatter&quot;: function(x)&#123;return Number(x.data.percent * 100).toFixed() + &#39;%&#39;;&#125;
+            &#125;,
+            &quot;rippleEffect&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;brushType&quot;: &quot;stroke&quot;,
+                &quot;scale&quot;: 2.5,
+                &quot;period&quot;: 4
+            &#125;
+        &#125;
+    ],
+    &quot;legend&quot;: [
+        &#123;
+            &quot;data&quot;: [
+                &quot;product1&quot;,
+                &quot;product2&quot;
+            ],
+            &quot;selected&quot;: &#123;
+                &quot;product1&quot;: true,
+                &quot;product2&quot;: true
+            &#125;
+        &#125;
+    ],
+    &quot;tooltip&quot;: &#123;
+        &quot;show&quot;: true,
+        &quot;trigger&quot;: &quot;item&quot;,
+        &quot;triggerOn&quot;: &quot;mousemove|click&quot;,
+        &quot;axisPointer&quot;: &#123;
+            &quot;type&quot;: &quot;line&quot;
+        &#125;,
+        &quot;textStyle&quot;: &#123;
+            &quot;fontSize&quot;: 14
+        &#125;,
+        &quot;borderWidth&quot;: 0
+    &#125;,
+    &quot;xAxis&quot;: [
+        &#123;
+            &quot;show&quot;: true,
+            &quot;scale&quot;: false,
+            &quot;nameLocation&quot;: &quot;end&quot;,
+            &quot;nameGap&quot;: 15,
+            &quot;gridIndex&quot;: 0,
+            &quot;inverse&quot;: false,
+            &quot;offset&quot;: 0,
+            &quot;splitNumber&quot;: 5,
+            &quot;minInterval&quot;: 0,
+            &quot;splitLine&quot;: &#123;
+                &quot;show&quot;: false,
+                &quot;lineStyle&quot;: &#123;
+                    &quot;width&quot;: 1,
+                    &quot;opacity&quot;: 1,
+                    &quot;curveness&quot;: 0,
+                    &quot;type&quot;: &quot;solid&quot;
+                &#125;
+            &#125;,
+            &quot;data&quot;: [
+                1,
+                2,
+                3,
+                4,
+                5
+            ]
+        &#125;
+    ],
+    &quot;yAxis&quot;: [
+        &#123;
+            &quot;show&quot;: true,
+            &quot;scale&quot;: false,
+            &quot;nameLocation&quot;: &quot;end&quot;,
+            &quot;nameGap&quot;: 15,
+            &quot;gridIndex&quot;: 0,
+            &quot;inverse&quot;: false,
+            &quot;offset&quot;: 0,
+            &quot;splitNumber&quot;: 5,
+            &quot;minInterval&quot;: 0,
+            &quot;splitLine&quot;: &#123;
+                &quot;show&quot;: false,
+                &quot;lineStyle&quot;: &#123;
+                    &quot;width&quot;: 1,
+                    &quot;opacity&quot;: 1,
+                    &quot;curveness&quot;: 0,
+                    &quot;type&quot;: &quot;solid&quot;
+                &#125;
+            &#125;
+        &#125;
+    ]
+&#125;;
+        chart_852d5339878f4f1bafa2e93fa1cd616a.setOption(option_852d5339878f4f1bafa2e93fa1cd616a);
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</details>
+
+<p><a href="./sales_report_iframe.html">报告的html</a></p>
+<details>
+    <summary>html</summary>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Sales Report&lt;/title&gt;
+    &lt;style&gt;
+        body &#123;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        &#125;
+        h1, h2 &#123;
+            color: #333;
+        &#125;
+        table &#123;
+            width: 100%;
+            border-collapse: collapse;
+        &#125;
+        th, td &#123;
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        &#125;
+        th &#123;
+            background-color: #f2f2f2;
+        &#125;
+        img &#123;
+            max-width: 100%;
+            height: auto;
+        &#125;
+        iframe &#123;
+            border: none;
+            width: 100%; /* 使 iframe 充满整个容器 */
+            height: 500px; /* 设置 iframe 高度 */
+        &#125;
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Sales Report&lt;/h1&gt;
+
+    &lt;h2&gt;Table Data&lt;/h2&gt;
+    &lt;table&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Product&lt;/th&gt;
+            &lt;th&gt;Amount&lt;/th&gt;
+        &lt;/tr&gt;
+        
+        &lt;tr&gt;
+            &lt;td&gt;Product A&lt;/td&gt;
+            &lt;td&gt;1000&lt;/td&gt;
+        &lt;/tr&gt;
+        
+        &lt;tr&gt;
+            &lt;td&gt;Product B&lt;/td&gt;
+            &lt;td&gt;1500&lt;/td&gt;
+        &lt;/tr&gt;
+        
+        &lt;tr&gt;
+            &lt;td&gt;Product C&lt;/td&gt;
+            &lt;td&gt;2000&lt;/td&gt;
+        &lt;/tr&gt;
+        
+    &lt;/table&gt;
+
+    &lt;h2&gt;Chart&lt;/h2&gt;
+    &lt;!-- 使用 &lt;iframe&gt; 标签插入 HTML 图表 --&gt;
+    &lt;iframe src=&quot;stack_bar_percent_iframe.html&quot;&gt;&lt;/iframe&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</details>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover next lx-cover-sm" style="background-image: url(/dist/images/footer-l.min.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>没有更新的文章</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover prev lx-cover-sm" style="background-image: url(/dist/images/footer-r.min.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2024/06/03/python/Python_iterator/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>python迭代器</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2024.<a href="/">pluaron's blog</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button" title="menu">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button>
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/dist/images/log.jpg" alt="cong wang"/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>cong wang</p>
+          <span class="tagline">do what you love!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-th-list fa-fw"></i>分类</span>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Model/">Model</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/html/plot/">plot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/packages/">packages</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li></ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/about/">About</a></li>
+        </ul>
+    </li>
+    
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/theme-lx@0.4.4/source/dist/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+<script src="https://cdn.jsdelivr.net/npm/theme-lx@0.4.4/source/dist/js/local.search.min.js"></script>
+
+</body>
+</html>

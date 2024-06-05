@@ -1,8 +1,850 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>pyCirclize</title>
+    <url>/2024/06/02/packages/pycirclize/</url>
+    <content><![CDATA[<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><ul>
+<li><p><a href="https://github.com/moshi4/pycirclize">github</a>: <a href="https://github.com/moshi4/pycirclize">https://github.com/moshi4/pycirclize</a></p>
+</li>
+<li><p><a href="https://moshi4.github.io/pyCirclize/">documentation</a>: <a href="https://moshi4.github.io/pyCirclize/">https://moshi4.github.io/pyCirclize/</a></p>
+</li>
+</ul>
+<h2 id="install"><a href="#install" class="headerlink" title="install"></a>install</h2><h3 id="pip"><a href="#pip" class="headerlink" title="pip"></a>pip</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">pip install pycirclize</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>packages</category>
+      </categories>
+      <tags>
+        <tag>plot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>回归模型评价</title>
+    <url>/2024/05/30/model/Model_Regression-model-evaluation/</url>
+    <content><![CDATA[<h1 id="回归模型评价"><a href="#回归模型评价" class="headerlink" title="回归模型评价"></a>回归模型评价</h1><p>回归模型的评价指标：MSE、RMSE、RMSLE、R<sup>2</sup>。</p>
+<span id="more"></span>
+
+
+<h2 id="MSE-（Mean-Square-Error）均方误差"><a href="#MSE-（Mean-Square-Error）均方误差" class="headerlink" title="MSE （Mean Square Error）均方误差"></a>MSE （Mean Square Error）均方误差</h2><p>MSE是真实值和预测值的差值平方后求平均值，常被用作线性回归的损失函数。</p>
+<p>$$<br>MSE &#x3D; \frac{1}{n} \sum_{i&#x3D;1}^{n} (y_i - \hat{y}_i)^2<br>$$</p>
+<h2 id="RMSE-Root-Mean-Square-Error-均方根误差"><a href="#RMSE-Root-Mean-Square-Error-均方根误差" class="headerlink" title="RMSE (Root Mean Square Error) 均方根误差"></a>RMSE (Root Mean Square Error) 均方根误差</h2><p>RMSE是MSE值的开方，衡量观察值和真实值之间的偏差，常用作机器学习模型预测结果的衡量标准。</p>
+<p>$$<br>RMSE &#x3D; \sqrt{\frac{1}{n} \sum_{i&#x3D;1}^{n} (y_i - \hat{y}_i)^2}<br>$$</p>
+<p>RMSE值的阈值：</p>
+<pre><code>- RMSE值越小，预测模型准确度越高
+- RMSE值低于数据标准差10%，则可被认为是一种较好的预测模型
+- RMSE在数据集是正态分布的情况下，则是一个合适的评价标准；RMSE在数据集中离群点较多或者存在其他异常情况下，则不太合适
+</code></pre>
+<h2 id="MAE-Mean-Absolute-Error-平均绝对误差"><a href="#MAE-Mean-Absolute-Error-平均绝对误差" class="headerlink" title="MAE (Mean Absolute Error) 平均绝对误差"></a>MAE (Mean Absolute Error) 平均绝对误差</h2><p>MAE是绝对误差的平均值，反映预测值误差的实际情况。</p>
+<p>$$<br>MAE &#x3D; \frac{1}{n} \sum_{i&#x3D;1}^{n} |y_i - \hat{y}_i|<br>$$</p>
+<h2 id="RMSLE-Root-Mean-Squared-Logarithmic-Error-均方根对数误差"><a href="#RMSLE-Root-Mean-Squared-Logarithmic-Error-均方根对数误差" class="headerlink" title="RMSLE (Root Mean Squared Logarithmic Error) 均方根对数误差"></a>RMSLE (Root Mean Squared Logarithmic Error) 均方根对数误差</h2><p>RMSLE关注相对误差：</p>
+<pre><code>- 对数误差能降低数值较大的目标变量的影响，使得评估过程更关注相对误差
+- 平方根误差可以放大小误差，更有助于模型拟合数据
+- 对数均方根误差不适用于目标变量存在负值的情况
+</code></pre>
+<p>$$<br>RMSLE &#x3D; \sqrt{\frac{1}{n} \sum_{i&#x3D;1}^{n} \left( \log(\hat{y}_i + 1) - \log(y_i + 1) \right)^2}<br>$$</p>
+<h2 id="R2-可决系数"><a href="#R2-可决系数" class="headerlink" title="R2 可决系数"></a>R<sup>2</sup> 可决系数</h2><p>R<sup>2</sup>是拟合优度，反映的是自变量X对因变量y的变动的解释程度，越接近于1，说明模型拟合越好。</p>
+<p>$$<br>R^2 &#x3D; 1 - \frac{SS_{res}}{SS_{tot}}<br>$$</p>
+<p>SS<sub>res</sub>是残差平方和，衡量了观测值与模型预测值之间的偏差</p>
+<p>$$<br>SS_{res} &#x3D; \sum_{i&#x3D;1}^{n} (y_i - \hat{y}_i)^2<br>$$</p>
+<p>SS<sub>tot</sub>是总平方和，衡量了因变量的总方差。</p>
+<p>$$<br>SS_{tot} &#x3D; \sum_{i&#x3D;1}^{n} (y_i - \bar{y})^2<br>$$</p>
+]]></content>
+      <categories>
+        <category>Model</category>
+      </categories>
+      <tags>
+        <tag>Model_train</tag>
+        <tag>Regression</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python迭代器</title>
+    <url>/2024/06/03/python/Python_iterator/</url>
+    <content><![CDATA[<h1 id="python迭代器"><a href="#python迭代器" class="headerlink" title="python迭代器"></a>python迭代器</h1><h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><ul>
+<li>可迭代对象(iterable)：直接作用于for循环的对象；可使用iter()转换成迭代器。</li>
+<li>迭代器(iterator)：使用next()函数调用并不断返回下一个值的对象</li>
+</ul>
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><h3 id="无穷迭代器"><a href="#无穷迭代器" class="headerlink" title="无穷迭代器"></a>无穷迭代器</h3><p>无穷迭代器：count()、cycle()、repeat()</p>
+<h4 id="count"><a href="#count" class="headerlink" title="count"></a>count</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> base <span class="keyword">in</span> itertools.count(start=<span class="number">10</span>, step=<span class="number">2</span>):</span><br><span class="line">    <span class="keyword">if</span> i &gt; <span class="number">5</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="built_in">print</span>(base)</span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 10</span></span><br><span class="line"><span class="comment"># 12</span></span><br><span class="line"><span class="comment"># 14</span></span><br><span class="line"><span class="comment"># 16</span></span><br><span class="line"><span class="comment"># 18</span></span><br><span class="line"><span class="comment"># 20</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="cycle"><a href="#cycle" class="headerlink" title="cycle"></a>cycle</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> base <span class="keyword">in</span> itertools.cycle(<span class="string">&#x27;ATCG&#x27;</span>):</span><br><span class="line">    <span class="keyword">if</span> i &gt; <span class="number">10</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="built_in">print</span>(base)</span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A</span></span><br><span class="line"><span class="comment"># T</span></span><br><span class="line"><span class="comment"># C</span></span><br><span class="line"><span class="comment"># G</span></span><br><span class="line"><span class="comment"># A</span></span><br><span class="line"><span class="comment"># T</span></span><br><span class="line"><span class="comment"># C</span></span><br><span class="line"><span class="comment"># G</span></span><br><span class="line"><span class="comment"># A</span></span><br><span class="line"><span class="comment"># T</span></span><br><span class="line"><span class="comment"># C</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="repeat"><a href="#repeat" class="headerlink" title="repeat"></a>repeat</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"><span class="keyword">for</span> base <span class="keyword">in</span> itertools.repeat(<span class="string">&#x27;abc&#x27;</span>, <span class="number">3</span>):</span><br><span class="line">    <span class="built_in">print</span>(base)</span><br><span class="line"></span><br><span class="line"><span class="comment"># abc</span></span><br><span class="line"><span class="comment"># abc</span></span><br><span class="line"><span class="comment"># abc</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> base <span class="keyword">in</span> itertools.repeat([<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;c&#x27;</span>], <span class="number">3</span>):</span><br><span class="line">    <span class="built_in">print</span>(base)</span><br><span class="line"></span><br><span class="line"><span class="comment"># [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;]</span></span><br><span class="line"><span class="comment"># [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;]</span></span><br><span class="line"><span class="comment"># [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;]</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="有限迭代器"><a href="#有限迭代器" class="headerlink" title="有限迭代器"></a>有限迭代器</h3><p>有限迭代器：accumulate()、chain()</p>
+<h4 id="accumulate"><a href="#accumulate" class="headerlink" title="accumulate"></a>accumulate</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"><span class="keyword">for</span> base <span class="keyword">in</span> itertools.accumulate([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]):</span><br><span class="line">    <span class="built_in">print</span>(base)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1</span></span><br><span class="line"><span class="comment"># 3</span></span><br><span class="line"><span class="comment"># 6</span></span><br><span class="line"><span class="comment"># 10</span></span><br><span class="line"><span class="comment"># 15</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>reference：<a href="https://docs.python.org/zh-cn/3/library/itertools.html">https://docs.python.org/zh-cn/3/library/itertools.html</a></p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>underlying</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python并行</title>
+    <url>/2024/05/28/python/Python_Parallel/</url>
+    <content><![CDATA[<h1 id="Pparallelism"><a href="#Pparallelism" class="headerlink" title="Pparallelism"></a>Pparallelism</h1><p>python并行执行任务</p>
+<span id="more"></span>
+
+<h2 id="python-执行shell"><a href="#python-执行shell" class="headerlink" title="python 执行shell"></a>python 执行shell</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> subprocess <span class="keyword">as</span> subp</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Subp_call</span>(<span class="params">cmd</span>):</span><br><span class="line">    <span class="built_in">print</span>(cmd)</span><br><span class="line">    subp.check_call(cmd, shell=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="python-异步进程池"><a href="#python-异步进程池" class="headerlink" title="python 异步进程池"></a>python 异步进程池</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">n_threads = <span class="number">5</span></span><br><span class="line"></span><br><span class="line">params_list = [[], []]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Work</span>(<span class="params">i</span>):</span><br><span class="line">    time.spleep(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Multi_process</span>(<span class="params">function, params_list, n_threads</span>):</span><br><span class="line"></span><br><span class="line">    pool = Pool(n_threads)</span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> params_list:</span><br><span class="line">        pool.apply_async(func=function, args=param)</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="python-异步进程池，并获取返回结果"><a href="#python-异步进程池，并获取返回结果" class="headerlink" title="python 异步进程池，并获取返回结果"></a>python 异步进程池，并获取返回结果</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">n_threads = <span class="number">5</span></span><br><span class="line"></span><br><span class="line">params_list = [[], []]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Work</span>(<span class="params">i</span>):</span><br><span class="line">    time.spleep(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">return</span> i</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Multi_process_get</span>(<span class="params">function, params_list, n_threads</span>):</span><br><span class="line"></span><br><span class="line">    res_list = []</span><br><span class="line">    pool = Pool(n_threads)</span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> params_list:</span><br><span class="line">        res = pool.apply_async(func=function, args=param)</span><br><span class="line">        res_list.append(res)</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br><span class="line"></span><br><span class="line">    out_list = []</span><br><span class="line">    <span class="keyword">for</span> res <span class="keyword">in</span> res_list:</span><br><span class="line">        out_list.append(res.get())</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> out_list</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="python-异步进程池，并同时打印进程进度"><a href="#python-异步进程池，并同时打印进程进度" class="headerlink" title="python 异步进程池，并同时打印进程进度"></a>python 异步进程池，并同时打印进程进度</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"></span><br><span class="line">n_threads = <span class="number">5</span></span><br><span class="line"></span><br><span class="line">params_list = [[], []]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Work</span>(<span class="params">i</span>):</span><br><span class="line">    time.spleep(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">return</span> i</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Multi_process</span>(<span class="params">function, params_list, n_threads, description=<span class="string">&quot;&quot;</span></span>):</span><br><span class="line">    </span><br><span class="line">    pbar = tqdm(total=<span class="built_in">len</span>(params_list))</span><br><span class="line">    pbar.set_description(description)</span><br><span class="line">    update = <span class="keyword">lambda</span> *args: pbar.update()</span><br><span class="line"></span><br><span class="line">    pool = Pool(n_threads)</span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> params_list:</span><br><span class="line">        pool.apply_async(function, param, callback=update)</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="python-异步进程池，获取返回结果-并同时打印进程进度"><a href="#python-异步进程池，获取返回结果-并同时打印进程进度" class="headerlink" title="python 异步进程池，获取返回结果, 并同时打印进程进度"></a>python 异步进程池，获取返回结果, 并同时打印进程进度</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"></span><br><span class="line">n_threads = <span class="number">5</span></span><br><span class="line"></span><br><span class="line">params_list = [[], []]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Work</span>(<span class="params">i</span>):</span><br><span class="line">    time.spleep(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">return</span> i</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Multi_process</span>(<span class="params">function, params_list, n_threads, description=<span class="string">&quot;&quot;</span></span>):</span><br><span class="line">    </span><br><span class="line">    pbar = tqdm(total=<span class="built_in">len</span>(params_list))</span><br><span class="line">    pbar.set_description(description)</span><br><span class="line">    update = <span class="keyword">lambda</span> *args: pbar.update()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    res_list = []</span><br><span class="line">    pool = Pool(n_threads)</span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> params_list:</span><br><span class="line">        res = pool.apply_async(func=function, args=param, callback=update)</span><br><span class="line">        res_list.append(res)</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br><span class="line"></span><br><span class="line">    out_list = []</span><br><span class="line">    <span class="keyword">for</span> res <span class="keyword">in</span> res_list:</span><br><span class="line">        out_list.append(res.get())</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> out_list</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>underlying</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jinja &amp; pyechart联合构建html报告</title>
+    <url>/2024/06/05/html/report_pyechart_jinja/</url>
+    <content><![CDATA[<h1 id="jinja-pyechart联合构建html报告"><a href="#jinja-pyechart联合构建html报告" class="headerlink" title="jinja&amp;pyechart联合构建html报告"></a><code>jinja</code>&amp;<code>pyechart</code>联合构建html报告</h1><p><a href="https://github.com/pyecharts/pyecharts">pyechart</a>是一个具有良好交互性和精巧图表设计的开源的数据可视化python包；<a href="https://github.com/pallets/jinja">Jinja</a> 是一款快速、富有表现力且可扩展的模板引擎，模板中的特殊占位符允许编写类似于 Python 语法的代码。二者结合，能便捷有效的生成数据分析报告。</p>
+<span id="more"></span>
+
+<h2 id="jinja-pyechart安装"><a href="#jinja-pyechart安装" class="headerlink" title="jinja&amp;pyechart安装"></a><code>jinja</code>&amp;<code>pyechart</code>安装</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">pyecharts</span></span><br><span class="line">pip install pyecharts</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">jinja</span></span><br><span class="line">pip install Jinja2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="直接插入html"><a href="#直接插入html" class="headerlink" title="直接插入html"></a>直接插入html</h2><h3 id="input"><a href="#input" class="headerlink" title="input"></a>input</h3><p>html模板</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>&#123;&#123; title &#125;&#125;<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">body</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">font-family</span>: Arial, sans-serif;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin</span>: <span class="number">20px</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">h1</span>, <span class="selector-tag">h2</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">color</span>: <span class="number">#333</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">table</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">width</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">border-collapse</span>: collapse;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">th</span>, <span class="selector-tag">td</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">padding</span>: <span class="number">8px</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#ddd</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">text-align</span>: left;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">th</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">background-color</span>: <span class="number">#f2f2f2</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">img</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">max-width</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">height</span>: auto;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">iframe</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">border</span>: none;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;&#123; title &#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Table Data<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Product<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Amount<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        &#123;% for row in table_data %&#125;</span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; row.Product &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; row.Amount &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        &#123;% endfor %&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Chart<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    &#123;&#123; chart_html &#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="process"><a href="#process" class="headerlink" title="process"></a>process</h3><p>python脚本</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> jinja2 <span class="keyword">import</span> Environment, FileSystemLoader</span><br><span class="line"><span class="keyword">from</span> pyecharts <span class="keyword">import</span> options <span class="keyword">as</span> opts</span><br><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Bar</span><br><span class="line"><span class="keyword">from</span> pyecharts.commons.utils <span class="keyword">import</span> JsCode</span><br><span class="line"><span class="keyword">from</span> pyecharts.<span class="built_in">globals</span> <span class="keyword">import</span> ThemeType</span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备数据</span></span><br><span class="line">report_data = &#123;</span><br><span class="line">    <span class="string">&#x27;title&#x27;</span>: <span class="string">&#x27;Sales Report&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;table_data&#x27;</span>: [</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product A&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">1000</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product B&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">1500</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product C&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">2000</span>&#125;,</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">&#x27;image_path&#x27;</span>: <span class="string">&#x27;path/to/image.jpg&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">list2 = [</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">12</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">12</span> / (<span class="number">12</span> + <span class="number">3</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">23</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">23</span> / (<span class="number">23</span> + <span class="number">21</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">33</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">33</span> / (<span class="number">33</span> + <span class="number">5</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">3</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">3</span> / (<span class="number">3</span> + <span class="number">52</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">33</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">33</span> / (<span class="number">33</span> + <span class="number">43</span>)&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">list3 = [</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">3</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">3</span> / (<span class="number">12</span> + <span class="number">3</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">21</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">21</span> / (<span class="number">23</span> + <span class="number">21</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">5</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">5</span> / (<span class="number">33</span> + <span class="number">5</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">52</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">52</span> / (<span class="number">3</span> + <span class="number">52</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">43</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">43</span> / (<span class="number">33</span> + <span class="number">43</span>)&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">c = (</span><br><span class="line">    Bar(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))</span><br><span class="line">    .add_xaxis([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line">    .add_yaxis(<span class="string">&quot;product1&quot;</span>, list2, stack=<span class="string">&quot;stack1&quot;</span>, category_gap=<span class="string">&quot;50%&quot;</span>)</span><br><span class="line">    .add_yaxis(<span class="string">&quot;product2&quot;</span>, list3, stack=<span class="string">&quot;stack1&quot;</span>, category_gap=<span class="string">&quot;50%&quot;</span>)</span><br><span class="line">    .set_series_opts(</span><br><span class="line">        label_opts=opts.LabelOpts(</span><br><span class="line">            position=<span class="string">&quot;right&quot;</span>,</span><br><span class="line">            formatter=JsCode(</span><br><span class="line">                <span class="string">&quot;function(x)&#123;return Number(x.data.percent * 100).toFixed() + &#x27;%&#x27;;&#125;&quot;</span></span><br><span class="line">            ),</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">    .render(<span class="string">&quot;stack_bar_percent.html&quot;</span>)  <span class="comment"># 保存为 HTML 文件</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将图表的 HTML 内容读取为字符串</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;stack_bar_percent.html&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    chart_html = f.read()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备模板数据</span></span><br><span class="line">template_data = &#123;</span><br><span class="line">    <span class="string">&#x27;title&#x27;</span>: <span class="string">&#x27;Sales Report&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;chart_html&#x27;</span>: chart_html,</span><br><span class="line">    <span class="string">&#x27;table_data&#x27;</span>: [</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product A&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">1000</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product B&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">1500</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product C&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">2000</span>&#125;,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建Jinja2环境</span></span><br><span class="line">env = Environment(loader=FileSystemLoader(<span class="string">&#x27;templates&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载报告模板</span></span><br><span class="line">template = env.get_template(<span class="string">&#x27;report_template.html&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 渲染报告模板</span></span><br><span class="line">report = template.render(template_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将报告保存到文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;sales_report.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(report)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="results"><a href="#results" class="headerlink" title="results"></a>results</h3><p><a href="./stack_bar_percent.html">图片的html</a></p>
+<details>
+    <summary>html</summary>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Awesome-pyecharts&lt;/title&gt;
+            &lt;script type=&quot;text/javascript&quot; src=&quot;https://assets.pyecharts.org/assets/echarts.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;b36e75289fd94ccfa574eb707867f493&quot; style=&quot;width:900px; height:500px;&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+        var chart_b36e75289fd94ccfa574eb707867f493 = echarts.init(
+            document.getElementById(&#39;b36e75289fd94ccfa574eb707867f493&#39;), &#39;light&#39;, &#123;renderer: &#39;canvas&#39;&#125;);
+        var option_b36e75289fd94ccfa574eb707867f493 = &#123;
+    &quot;series&quot;: [
+        &#123;
+            &quot;type&quot;: &quot;bar&quot;,
+            &quot;name&quot;: &quot;product1&quot;,
+            &quot;data&quot;: [
+                &#123;
+                    &quot;value&quot;: 12,
+                    &quot;percent&quot;: 0.8
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 23,
+                    &quot;percent&quot;: 0.5227272727272727
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 33,
+                    &quot;percent&quot;: 0.868421052631579
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 3,
+                    &quot;percent&quot;: 0.05454545454545454
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 33,
+                    &quot;percent&quot;: 0.4342105263157895
+                &#125;
+            ],
+            &quot;stack&quot;: &quot;stack1&quot;,
+            &quot;barCategoryGap&quot;: &quot;50%&quot;,
+            &quot;label&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;position&quot;: &quot;right&quot;,
+                &quot;margin&quot;: 8,
+                &quot;formatter&quot;: function(x)&#123;return Number(x.data.percent * 100).toFixed() + &#39;%&#39;;&#125;
+            &#125;,
+            &quot;rippleEffect&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;brushType&quot;: &quot;stroke&quot;,
+                &quot;scale&quot;: 2.5,
+                &quot;period&quot;: 4
+            &#125;
+        &#125;,
+        &#123;
+            &quot;type&quot;: &quot;bar&quot;,
+            &quot;name&quot;: &quot;product2&quot;,
+            &quot;data&quot;: [
+                &#123;
+                    &quot;value&quot;: 3,
+                    &quot;percent&quot;: 0.2
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 21,
+                    &quot;percent&quot;: 0.4772727272727273
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 5,
+                    &quot;percent&quot;: 0.13157894736842105
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 52,
+                    &quot;percent&quot;: 0.9454545454545454
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 43,
+                    &quot;percent&quot;: 0.5657894736842105
+                &#125;
+            ],
+            &quot;stack&quot;: &quot;stack1&quot;,
+            &quot;barCategoryGap&quot;: &quot;50%&quot;,
+            &quot;label&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;position&quot;: &quot;right&quot;,
+                &quot;margin&quot;: 8,
+                &quot;formatter&quot;: function(x)&#123;return Number(x.data.percent * 100).toFixed() + &#39;%&#39;;&#125;
+            &#125;,
+            &quot;rippleEffect&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;brushType&quot;: &quot;stroke&quot;,
+                &quot;scale&quot;: 2.5,
+                &quot;period&quot;: 4
+            &#125;
+        &#125;
+    ],
+    &quot;legend&quot;: [
+        &#123;
+            &quot;data&quot;: [
+                &quot;product1&quot;,
+                &quot;product2&quot;
+            ],
+            &quot;selected&quot;: &#123;
+                &quot;product1&quot;: true,
+                &quot;product2&quot;: true
+            &#125;
+        &#125;
+    ],
+    &quot;tooltip&quot;: &#123;
+        &quot;show&quot;: true,
+        &quot;trigger&quot;: &quot;item&quot;,
+        &quot;triggerOn&quot;: &quot;mousemove|click&quot;,
+        &quot;axisPointer&quot;: &#123;
+            &quot;type&quot;: &quot;line&quot;
+        &#125;,
+        &quot;textStyle&quot;: &#123;
+            &quot;fontSize&quot;: 14
+        &#125;,
+        &quot;borderWidth&quot;: 0
+    &#125;,
+    &quot;xAxis&quot;: [
+        &#123;
+            &quot;show&quot;: true,
+            &quot;scale&quot;: false,
+            &quot;nameLocation&quot;: &quot;end&quot;,
+            &quot;nameGap&quot;: 15,
+            &quot;gridIndex&quot;: 0,
+            &quot;inverse&quot;: false,
+            &quot;offset&quot;: 0,
+            &quot;splitNumber&quot;: 5,
+            &quot;minInterval&quot;: 0,
+            &quot;splitLine&quot;: &#123;
+                &quot;show&quot;: false,
+                &quot;lineStyle&quot;: &#123;
+                    &quot;width&quot;: 1,
+                    &quot;opacity&quot;: 1,
+                    &quot;curveness&quot;: 0,
+                    &quot;type&quot;: &quot;solid&quot;
+                &#125;
+            &#125;,
+            &quot;data&quot;: [
+                1,
+                2,
+                3,
+                4,
+                5
+            ]
+        &#125;
+    ],
+    &quot;yAxis&quot;: [
+        &#123;
+            &quot;show&quot;: true,
+            &quot;scale&quot;: false,
+            &quot;nameLocation&quot;: &quot;end&quot;,
+            &quot;nameGap&quot;: 15,
+            &quot;gridIndex&quot;: 0,
+            &quot;inverse&quot;: false,
+            &quot;offset&quot;: 0,
+            &quot;splitNumber&quot;: 5,
+            &quot;minInterval&quot;: 0,
+            &quot;splitLine&quot;: &#123;
+                &quot;show&quot;: false,
+                &quot;lineStyle&quot;: &#123;
+                    &quot;width&quot;: 1,
+                    &quot;opacity&quot;: 1,
+                    &quot;curveness&quot;: 0,
+                    &quot;type&quot;: &quot;solid&quot;
+                &#125;
+            &#125;
+        &#125;
+    ]
+&#125;;
+        chart_b36e75289fd94ccfa574eb707867f493.setOption(option_b36e75289fd94ccfa574eb707867f493);
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</details>
+
+
+<p><a href="./sales_report.html">报告的html</a></p>
+<details>
+    <summary>html</summary>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Sales Report&lt;/title&gt;
+    &lt;style&gt;
+        body &#123;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        &#125;
+        h1, h2 &#123;
+            color: #333;
+        &#125;
+        table &#123;
+            width: 100%;
+            border-collapse: collapse;
+        &#125;
+        th, td &#123;
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        &#125;
+        th &#123;
+            background-color: #f2f2f2;
+        &#125;
+        img &#123;
+            max-width: 100%;
+            height: auto;
+        &#125;
+        iframe &#123;
+            border: none;
+        &#125;
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Sales Report&lt;/h1&gt;
+
+    &lt;h2&gt;Table Data&lt;/h2&gt;
+    &lt;table&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Product&lt;/th&gt;
+            &lt;th&gt;Amount&lt;/th&gt;
+        &lt;/tr&gt;
+        
+        &lt;tr&gt;
+            &lt;td&gt;Product A&lt;/td&gt;
+            &lt;td&gt;1000&lt;/td&gt;
+        &lt;/tr&gt;
+        
+        &lt;tr&gt;
+            &lt;td&gt;Product B&lt;/td&gt;
+            &lt;td&gt;1500&lt;/td&gt;
+        &lt;/tr&gt;
+        
+        &lt;tr&gt;
+            &lt;td&gt;Product C&lt;/td&gt;
+            &lt;td&gt;2000&lt;/td&gt;
+        &lt;/tr&gt;
+        
+    &lt;/table&gt;
+
+    &lt;h2&gt;Chart&lt;/h2&gt;
+    &lt;!-- 使用 &lt;iframe&gt; 标签插入 HTML 图表 --&gt;
+    &lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Awesome-pyecharts&lt;/title&gt;
+            &lt;script type=&quot;text/javascript&quot; src=&quot;https://assets.pyecharts.org/assets/echarts.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;b36e75289fd94ccfa574eb707867f493&quot; style=&quot;width:900px; height:500px;&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+        var chart_b36e75289fd94ccfa574eb707867f493 = echarts.init(
+            document.getElementById(&#39;b36e75289fd94ccfa574eb707867f493&#39;), &#39;light&#39;, &#123;renderer: &#39;canvas&#39;&#125;);
+        var option_b36e75289fd94ccfa574eb707867f493 = &#123;
+    &quot;series&quot;: [
+        &#123;
+            &quot;type&quot;: &quot;bar&quot;,
+            &quot;name&quot;: &quot;product1&quot;,
+            &quot;data&quot;: [
+                &#123;
+                    &quot;value&quot;: 12,
+                    &quot;percent&quot;: 0.8
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 23,
+                    &quot;percent&quot;: 0.5227272727272727
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 33,
+                    &quot;percent&quot;: 0.868421052631579
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 3,
+                    &quot;percent&quot;: 0.05454545454545454
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 33,
+                    &quot;percent&quot;: 0.4342105263157895
+                &#125;
+            ],
+            &quot;stack&quot;: &quot;stack1&quot;,
+            &quot;barCategoryGap&quot;: &quot;50%&quot;,
+            &quot;label&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;position&quot;: &quot;right&quot;,
+                &quot;margin&quot;: 8,
+                &quot;formatter&quot;: function(x)&#123;return Number(x.data.percent * 100).toFixed() + &#39;%&#39;;&#125;
+            &#125;,
+            &quot;rippleEffect&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;brushType&quot;: &quot;stroke&quot;,
+                &quot;scale&quot;: 2.5,
+                &quot;period&quot;: 4
+            &#125;
+        &#125;,
+        &#123;
+            &quot;type&quot;: &quot;bar&quot;,
+            &quot;name&quot;: &quot;product2&quot;,
+            &quot;data&quot;: [
+                &#123;
+                    &quot;value&quot;: 3,
+                    &quot;percent&quot;: 0.2
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 21,
+                    &quot;percent&quot;: 0.4772727272727273
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 5,
+                    &quot;percent&quot;: 0.13157894736842105
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 52,
+                    &quot;percent&quot;: 0.9454545454545454
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 43,
+                    &quot;percent&quot;: 0.5657894736842105
+                &#125;
+            ],
+            &quot;stack&quot;: &quot;stack1&quot;,
+            &quot;barCategoryGap&quot;: &quot;50%&quot;,
+            &quot;label&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;position&quot;: &quot;right&quot;,
+                &quot;margin&quot;: 8,
+                &quot;formatter&quot;: function(x)&#123;return Number(x.data.percent * 100).toFixed() + &#39;%&#39;;&#125;
+            &#125;,
+            &quot;rippleEffect&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;brushType&quot;: &quot;stroke&quot;,
+                &quot;scale&quot;: 2.5,
+                &quot;period&quot;: 4
+            &#125;
+        &#125;
+    ],
+    &quot;legend&quot;: [
+        &#123;
+            &quot;data&quot;: [
+                &quot;product1&quot;,
+                &quot;product2&quot;
+            ],
+            &quot;selected&quot;: &#123;
+                &quot;product1&quot;: true,
+                &quot;product2&quot;: true
+            &#125;
+        &#125;
+    ],
+    &quot;tooltip&quot;: &#123;
+        &quot;show&quot;: true,
+        &quot;trigger&quot;: &quot;item&quot;,
+        &quot;triggerOn&quot;: &quot;mousemove|click&quot;,
+        &quot;axisPointer&quot;: &#123;
+            &quot;type&quot;: &quot;line&quot;
+        &#125;,
+        &quot;textStyle&quot;: &#123;
+            &quot;fontSize&quot;: 14
+        &#125;,
+        &quot;borderWidth&quot;: 0
+    &#125;,
+    &quot;xAxis&quot;: [
+        &#123;
+            &quot;show&quot;: true,
+            &quot;scale&quot;: false,
+            &quot;nameLocation&quot;: &quot;end&quot;,
+            &quot;nameGap&quot;: 15,
+            &quot;gridIndex&quot;: 0,
+            &quot;inverse&quot;: false,
+            &quot;offset&quot;: 0,
+            &quot;splitNumber&quot;: 5,
+            &quot;minInterval&quot;: 0,
+            &quot;splitLine&quot;: &#123;
+                &quot;show&quot;: false,
+                &quot;lineStyle&quot;: &#123;
+                    &quot;width&quot;: 1,
+                    &quot;opacity&quot;: 1,
+                    &quot;curveness&quot;: 0,
+                    &quot;type&quot;: &quot;solid&quot;
+                &#125;
+            &#125;,
+            &quot;data&quot;: [
+                1,
+                2,
+                3,
+                4,
+                5
+            ]
+        &#125;
+    ],
+    &quot;yAxis&quot;: [
+        &#123;
+            &quot;show&quot;: true,
+            &quot;scale&quot;: false,
+            &quot;nameLocation&quot;: &quot;end&quot;,
+            &quot;nameGap&quot;: 15,
+            &quot;gridIndex&quot;: 0,
+            &quot;inverse&quot;: false,
+            &quot;offset&quot;: 0,
+            &quot;splitNumber&quot;: 5,
+            &quot;minInterval&quot;: 0,
+            &quot;splitLine&quot;: &#123;
+                &quot;show&quot;: false,
+                &quot;lineStyle&quot;: &#123;
+                    &quot;width&quot;: 1,
+                    &quot;opacity&quot;: 1,
+                    &quot;curveness&quot;: 0,
+                    &quot;type&quot;: &quot;solid&quot;
+                &#125;
+            &#125;
+        &#125;
+    ]
+&#125;;
+        chart_b36e75289fd94ccfa574eb707867f493.setOption(option_b36e75289fd94ccfa574eb707867f493);
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</details>
+
+
+<h2 id="使用iframe插入html"><a href="#使用iframe插入html" class="headerlink" title="使用iframe插入html"></a>使用iframe插入html</h2><h3 id="input-1"><a href="#input-1" class="headerlink" title="input"></a>input</h3><p>html模板</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>&#123;&#123; title &#125;&#125;<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">body</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">font-family</span>: Arial, sans-serif;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin</span>: <span class="number">20px</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">h1</span>, <span class="selector-tag">h2</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">color</span>: <span class="number">#333</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">table</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">width</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">border-collapse</span>: collapse;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">th</span>, <span class="selector-tag">td</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">padding</span>: <span class="number">8px</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#ddd</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">text-align</span>: left;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">th</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">background-color</span>: <span class="number">#f2f2f2</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">img</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">max-width</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">height</span>: auto;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">iframe</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">border</span>: none;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">width</span>: <span class="number">100%</span>; <span class="comment">/* 使 iframe 充满整个容器 */</span></span></span><br><span class="line"><span class="language-css">            <span class="attribute">height</span>: <span class="number">500px</span>; <span class="comment">/* 设置 iframe 高度 */</span></span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;&#123; title &#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Table Data<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Product<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Amount<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        &#123;% for row in table_data %&#125;</span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; row.Product &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; row.Amount &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        &#123;% endfor %&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Chart<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 使用 &lt;iframe&gt; 标签插入 HTML 图表 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;&#123;&#123; chart_html &#125;&#125;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="process-1"><a href="#process-1" class="headerlink" title="process"></a>process</h3><p>python脚本</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> jinja2 <span class="keyword">import</span> Environment, FileSystemLoader</span><br><span class="line"><span class="keyword">from</span> pyecharts <span class="keyword">import</span> options <span class="keyword">as</span> opts</span><br><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Bar</span><br><span class="line"><span class="keyword">from</span> pyecharts.commons.utils <span class="keyword">import</span> JsCode</span><br><span class="line"><span class="keyword">from</span> pyecharts.<span class="built_in">globals</span> <span class="keyword">import</span> ThemeType</span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备数据</span></span><br><span class="line">report_data = &#123;</span><br><span class="line">    <span class="string">&#x27;title&#x27;</span>: <span class="string">&#x27;Sales Report&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;table_data&#x27;</span>: [</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product A&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">1000</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product B&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">1500</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product C&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">2000</span>&#125;,</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">&#x27;image_path&#x27;</span>: <span class="string">&#x27;path/to/image.jpg&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">list2 = [</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">12</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">12</span> / (<span class="number">12</span> + <span class="number">3</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">23</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">23</span> / (<span class="number">23</span> + <span class="number">21</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">33</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">33</span> / (<span class="number">33</span> + <span class="number">5</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">3</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">3</span> / (<span class="number">3</span> + <span class="number">52</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">33</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">33</span> / (<span class="number">33</span> + <span class="number">43</span>)&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">list3 = [</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">3</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">3</span> / (<span class="number">12</span> + <span class="number">3</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">21</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">21</span> / (<span class="number">23</span> + <span class="number">21</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">5</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">5</span> / (<span class="number">33</span> + <span class="number">5</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">52</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">52</span> / (<span class="number">3</span> + <span class="number">52</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;value&quot;</span>: <span class="number">43</span>, <span class="string">&quot;percent&quot;</span>: <span class="number">43</span> / (<span class="number">33</span> + <span class="number">43</span>)&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">c = (</span><br><span class="line">    Bar(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))</span><br><span class="line">    .add_xaxis([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line">    .add_yaxis(<span class="string">&quot;product1&quot;</span>, list2, stack=<span class="string">&quot;stack1&quot;</span>, category_gap=<span class="string">&quot;50%&quot;</span>)</span><br><span class="line">    .add_yaxis(<span class="string">&quot;product2&quot;</span>, list3, stack=<span class="string">&quot;stack1&quot;</span>, category_gap=<span class="string">&quot;50%&quot;</span>)</span><br><span class="line">    .set_series_opts(</span><br><span class="line">        label_opts=opts.LabelOpts(</span><br><span class="line">            position=<span class="string">&quot;right&quot;</span>,</span><br><span class="line">            formatter=JsCode(</span><br><span class="line">                <span class="string">&quot;function(x)&#123;return Number(x.data.percent * 100).toFixed() + &#x27;%&#x27;;&#125;&quot;</span></span><br><span class="line">            ),</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">    .render(<span class="string">&quot;stack_bar_percent_iframe.html&quot;</span>)  <span class="comment"># 保存为 HTML 文件</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将图表的 HTML 内容读取为字符串</span></span><br><span class="line"><span class="comment">#with open(&quot;stack_bar_percent_iframe.html&quot;, &quot;r&quot;) as f:</span></span><br><span class="line"><span class="comment">#    chart_html = f.read()</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备模板数据</span></span><br><span class="line">template_data = &#123;</span><br><span class="line">    <span class="string">&#x27;title&#x27;</span>: <span class="string">&#x27;Sales Report&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;chart_html&#x27;</span>: <span class="string">&quot;stack_bar_percent_iframe.html&quot;</span>,</span><br><span class="line">    <span class="string">&#x27;table_data&#x27;</span>: [</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product A&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">1000</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product B&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">1500</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;Product&#x27;</span>: <span class="string">&#x27;Product C&#x27;</span>, <span class="string">&#x27;Amount&#x27;</span>: <span class="number">2000</span>&#125;,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建Jinja2环境</span></span><br><span class="line">env = Environment(loader=FileSystemLoader(<span class="string">&#x27;templates&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载报告模板</span></span><br><span class="line">template = env.get_template(<span class="string">&#x27;report_template_iframe.html&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 渲染报告模板</span></span><br><span class="line">report = template.render(template_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将报告保存到文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;sales_report_iframe.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(report)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="results-1"><a href="#results-1" class="headerlink" title="results"></a>results</h3><p><a href="./stack_bar_percent_iframe.html">图片的html</a></p>
+<details>
+    <summary>html</summary>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Awesome-pyecharts&lt;/title&gt;
+            &lt;script type=&quot;text/javascript&quot; src=&quot;https://assets.pyecharts.org/assets/echarts.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;852d5339878f4f1bafa2e93fa1cd616a&quot; style=&quot;width:900px; height:500px;&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+        var chart_852d5339878f4f1bafa2e93fa1cd616a = echarts.init(
+            document.getElementById(&#39;852d5339878f4f1bafa2e93fa1cd616a&#39;), &#39;light&#39;, &#123;renderer: &#39;canvas&#39;&#125;);
+        var option_852d5339878f4f1bafa2e93fa1cd616a = &#123;
+    &quot;series&quot;: [
+        &#123;
+            &quot;type&quot;: &quot;bar&quot;,
+            &quot;name&quot;: &quot;product1&quot;,
+            &quot;data&quot;: [
+                &#123;
+                    &quot;value&quot;: 12,
+                    &quot;percent&quot;: 0.8
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 23,
+                    &quot;percent&quot;: 0.5227272727272727
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 33,
+                    &quot;percent&quot;: 0.868421052631579
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 3,
+                    &quot;percent&quot;: 0.05454545454545454
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 33,
+                    &quot;percent&quot;: 0.4342105263157895
+                &#125;
+            ],
+            &quot;stack&quot;: &quot;stack1&quot;,
+            &quot;barCategoryGap&quot;: &quot;50%&quot;,
+            &quot;label&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;position&quot;: &quot;right&quot;,
+                &quot;margin&quot;: 8,
+                &quot;formatter&quot;: function(x)&#123;return Number(x.data.percent * 100).toFixed() + &#39;%&#39;;&#125;
+            &#125;,
+            &quot;rippleEffect&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;brushType&quot;: &quot;stroke&quot;,
+                &quot;scale&quot;: 2.5,
+                &quot;period&quot;: 4
+            &#125;
+        &#125;,
+        &#123;
+            &quot;type&quot;: &quot;bar&quot;,
+            &quot;name&quot;: &quot;product2&quot;,
+            &quot;data&quot;: [
+                &#123;
+                    &quot;value&quot;: 3,
+                    &quot;percent&quot;: 0.2
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 21,
+                    &quot;percent&quot;: 0.4772727272727273
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 5,
+                    &quot;percent&quot;: 0.13157894736842105
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 52,
+                    &quot;percent&quot;: 0.9454545454545454
+                &#125;,
+                &#123;
+                    &quot;value&quot;: 43,
+                    &quot;percent&quot;: 0.5657894736842105
+                &#125;
+            ],
+            &quot;stack&quot;: &quot;stack1&quot;,
+            &quot;barCategoryGap&quot;: &quot;50%&quot;,
+            &quot;label&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;position&quot;: &quot;right&quot;,
+                &quot;margin&quot;: 8,
+                &quot;formatter&quot;: function(x)&#123;return Number(x.data.percent * 100).toFixed() + &#39;%&#39;;&#125;
+            &#125;,
+            &quot;rippleEffect&quot;: &#123;
+                &quot;show&quot;: true,
+                &quot;brushType&quot;: &quot;stroke&quot;,
+                &quot;scale&quot;: 2.5,
+                &quot;period&quot;: 4
+            &#125;
+        &#125;
+    ],
+    &quot;legend&quot;: [
+        &#123;
+            &quot;data&quot;: [
+                &quot;product1&quot;,
+                &quot;product2&quot;
+            ],
+            &quot;selected&quot;: &#123;
+                &quot;product1&quot;: true,
+                &quot;product2&quot;: true
+            &#125;
+        &#125;
+    ],
+    &quot;tooltip&quot;: &#123;
+        &quot;show&quot;: true,
+        &quot;trigger&quot;: &quot;item&quot;,
+        &quot;triggerOn&quot;: &quot;mousemove|click&quot;,
+        &quot;axisPointer&quot;: &#123;
+            &quot;type&quot;: &quot;line&quot;
+        &#125;,
+        &quot;textStyle&quot;: &#123;
+            &quot;fontSize&quot;: 14
+        &#125;,
+        &quot;borderWidth&quot;: 0
+    &#125;,
+    &quot;xAxis&quot;: [
+        &#123;
+            &quot;show&quot;: true,
+            &quot;scale&quot;: false,
+            &quot;nameLocation&quot;: &quot;end&quot;,
+            &quot;nameGap&quot;: 15,
+            &quot;gridIndex&quot;: 0,
+            &quot;inverse&quot;: false,
+            &quot;offset&quot;: 0,
+            &quot;splitNumber&quot;: 5,
+            &quot;minInterval&quot;: 0,
+            &quot;splitLine&quot;: &#123;
+                &quot;show&quot;: false,
+                &quot;lineStyle&quot;: &#123;
+                    &quot;width&quot;: 1,
+                    &quot;opacity&quot;: 1,
+                    &quot;curveness&quot;: 0,
+                    &quot;type&quot;: &quot;solid&quot;
+                &#125;
+            &#125;,
+            &quot;data&quot;: [
+                1,
+                2,
+                3,
+                4,
+                5
+            ]
+        &#125;
+    ],
+    &quot;yAxis&quot;: [
+        &#123;
+            &quot;show&quot;: true,
+            &quot;scale&quot;: false,
+            &quot;nameLocation&quot;: &quot;end&quot;,
+            &quot;nameGap&quot;: 15,
+            &quot;gridIndex&quot;: 0,
+            &quot;inverse&quot;: false,
+            &quot;offset&quot;: 0,
+            &quot;splitNumber&quot;: 5,
+            &quot;minInterval&quot;: 0,
+            &quot;splitLine&quot;: &#123;
+                &quot;show&quot;: false,
+                &quot;lineStyle&quot;: &#123;
+                    &quot;width&quot;: 1,
+                    &quot;opacity&quot;: 1,
+                    &quot;curveness&quot;: 0,
+                    &quot;type&quot;: &quot;solid&quot;
+                &#125;
+            &#125;
+        &#125;
+    ]
+&#125;;
+        chart_852d5339878f4f1bafa2e93fa1cd616a.setOption(option_852d5339878f4f1bafa2e93fa1cd616a);
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</details>
+
+<p><a href="./sales_report_iframe.html">报告的html</a></p>
+<details>
+    <summary>html</summary>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Sales Report&lt;/title&gt;
+    &lt;style&gt;
+        body &#123;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        &#125;
+        h1, h2 &#123;
+            color: #333;
+        &#125;
+        table &#123;
+            width: 100%;
+            border-collapse: collapse;
+        &#125;
+        th, td &#123;
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        &#125;
+        th &#123;
+            background-color: #f2f2f2;
+        &#125;
+        img &#123;
+            max-width: 100%;
+            height: auto;
+        &#125;
+        iframe &#123;
+            border: none;
+            width: 100%; /* 使 iframe 充满整个容器 */
+            height: 500px; /* 设置 iframe 高度 */
+        &#125;
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Sales Report&lt;/h1&gt;
+
+    &lt;h2&gt;Table Data&lt;/h2&gt;
+    &lt;table&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Product&lt;/th&gt;
+            &lt;th&gt;Amount&lt;/th&gt;
+        &lt;/tr&gt;
+        
+        &lt;tr&gt;
+            &lt;td&gt;Product A&lt;/td&gt;
+            &lt;td&gt;1000&lt;/td&gt;
+        &lt;/tr&gt;
+        
+        &lt;tr&gt;
+            &lt;td&gt;Product B&lt;/td&gt;
+            &lt;td&gt;1500&lt;/td&gt;
+        &lt;/tr&gt;
+        
+        &lt;tr&gt;
+            &lt;td&gt;Product C&lt;/td&gt;
+            &lt;td&gt;2000&lt;/td&gt;
+        &lt;/tr&gt;
+        
+    &lt;/table&gt;
+
+    &lt;h2&gt;Chart&lt;/h2&gt;
+    &lt;!-- 使用 &lt;iframe&gt; 标签插入 HTML 图表 --&gt;
+    &lt;iframe src=&quot;stack_bar_percent_iframe.html&quot;&gt;&lt;/iframe&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</details>]]></content>
+      <categories>
+        <category>html</category>
+        <category>plot</category>
+      </categories>
+      <tags>
+        <tag>report</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python循环优化</title>
-    <url>/2024/05/28/python/python_loop-optimization/Python_loop-optimization/</url>
+    <url>/2024/05/28/python/Python_loop-optimization/</url>
     <content><![CDATA[<h1 id="python循环优化"><a href="#python循环优化" class="headerlink" title="python循环优化"></a>python循环优化</h1><p>python中经常使用到for循环，需要消耗大量时间，本文将介绍一些简单的方法进行提速。</p>
 <span id="more"></span>
 
@@ -75,95 +917,6 @@
       </categories>
       <tags>
         <tag>underlying</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python并行</title>
-    <url>/2024/05/28/python/python_Parallel/Python_Parallel/</url>
-    <content><![CDATA[<h1 id="Pparallelism"><a href="#Pparallelism" class="headerlink" title="Pparallelism"></a>Pparallelism</h1><p>python并行执行任务</p>
-<span id="more"></span>
-
-<h2 id="python-执行shell"><a href="#python-执行shell" class="headerlink" title="python 执行shell"></a>python 执行shell</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> subprocess <span class="keyword">as</span> subp</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Subp_call</span>(<span class="params">cmd</span>):</span><br><span class="line">    <span class="built_in">print</span>(cmd)</span><br><span class="line">    subp.check_call(cmd, shell=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="python-异步进程池"><a href="#python-异步进程池" class="headerlink" title="python 异步进程池"></a>python 异步进程池</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">n_threads = <span class="number">5</span></span><br><span class="line"></span><br><span class="line">params_list = [[], []]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Work</span>(<span class="params">i</span>):</span><br><span class="line">    time.spleep(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Multi_process</span>(<span class="params">function, params_list, n_threads</span>):</span><br><span class="line"></span><br><span class="line">    pool = Pool(n_threads)</span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> params_list:</span><br><span class="line">        pool.apply_async(func=function, args=param)</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-<h2 id="python-异步进程池，并获取返回结果"><a href="#python-异步进程池，并获取返回结果" class="headerlink" title="python 异步进程池，并获取返回结果"></a>python 异步进程池，并获取返回结果</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">n_threads = <span class="number">5</span></span><br><span class="line"></span><br><span class="line">params_list = [[], []]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Work</span>(<span class="params">i</span>):</span><br><span class="line">    time.spleep(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">return</span> i</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Multi_process_get</span>(<span class="params">function, params_list, n_threads</span>):</span><br><span class="line"></span><br><span class="line">    res_list = []</span><br><span class="line">    pool = Pool(n_threads)</span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> params_list:</span><br><span class="line">        res = pool.apply_async(func=function, args=param)</span><br><span class="line">        res_list.append(res)</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br><span class="line"></span><br><span class="line">    out_list = []</span><br><span class="line">    <span class="keyword">for</span> res <span class="keyword">in</span> res_list:</span><br><span class="line">        out_list.append(res.get())</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> out_list</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-<h2 id="python-异步进程池，并同时打印进程进度"><a href="#python-异步进程池，并同时打印进程进度" class="headerlink" title="python 异步进程池，并同时打印进程进度"></a>python 异步进程池，并同时打印进程进度</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"></span><br><span class="line">n_threads = <span class="number">5</span></span><br><span class="line"></span><br><span class="line">params_list = [[], []]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Work</span>(<span class="params">i</span>):</span><br><span class="line">    time.spleep(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">return</span> i</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Multi_process</span>(<span class="params">function, params_list, n_threads, description=<span class="string">&quot;&quot;</span></span>):</span><br><span class="line">    </span><br><span class="line">    pbar = tqdm(total=<span class="built_in">len</span>(params_list))</span><br><span class="line">    pbar.set_description(description)</span><br><span class="line">    update = <span class="keyword">lambda</span> *args: pbar.update()</span><br><span class="line"></span><br><span class="line">    pool = Pool(n_threads)</span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> params_list:</span><br><span class="line">        pool.apply_async(function, param, callback=update)</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="python-异步进程池，获取返回结果-并同时打印进程进度"><a href="#python-异步进程池，获取返回结果-并同时打印进程进度" class="headerlink" title="python 异步进程池，获取返回结果, 并同时打印进程进度"></a>python 异步进程池，获取返回结果, 并同时打印进程进度</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"></span><br><span class="line">n_threads = <span class="number">5</span></span><br><span class="line"></span><br><span class="line">params_list = [[], []]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Work</span>(<span class="params">i</span>):</span><br><span class="line">    time.spleep(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">return</span> i</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Multi_process</span>(<span class="params">function, params_list, n_threads, description=<span class="string">&quot;&quot;</span></span>):</span><br><span class="line">    </span><br><span class="line">    pbar = tqdm(total=<span class="built_in">len</span>(params_list))</span><br><span class="line">    pbar.set_description(description)</span><br><span class="line">    update = <span class="keyword">lambda</span> *args: pbar.update()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    res_list = []</span><br><span class="line">    pool = Pool(n_threads)</span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> params_list:</span><br><span class="line">        res = pool.apply_async(func=function, args=param, callback=update)</span><br><span class="line">        res_list.append(res)</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br><span class="line"></span><br><span class="line">    out_list = []</span><br><span class="line">    <span class="keyword">for</span> res <span class="keyword">in</span> res_list:</span><br><span class="line">        out_list.append(res.get())</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> out_list</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>underlying</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>回归模型评价</title>
-    <url>/2024/05/30/model/Model_Regression-model-evaluation/Model_Regression-model-evaluation/</url>
-    <content><![CDATA[<h1 id="回归模型评价"><a href="#回归模型评价" class="headerlink" title="回归模型评价"></a>回归模型评价</h1><p>回归模型的评价指标：MSE、RMSE、RMSLE、R<sup>2</sup>。</p>
-<span id="more"></span>
-
-
-<h2 id="MSE-（Mean-Square-Error）均方误差"><a href="#MSE-（Mean-Square-Error）均方误差" class="headerlink" title="MSE （Mean Square Error）均方误差"></a>MSE （Mean Square Error）均方误差</h2><p>MSE是真实值和预测值的差值平方后求平均值，常被用作线性回归的损失函数。</p>
-<p>$$<br>MSE &#x3D; \frac{1}{n} \sum_{i&#x3D;1}^{n} (y_i - \hat{y}_i)^2<br>$$</p>
-<h2 id="RMSE-Root-Mean-Square-Error-均方根误差"><a href="#RMSE-Root-Mean-Square-Error-均方根误差" class="headerlink" title="RMSE (Root Mean Square Error) 均方根误差"></a>RMSE (Root Mean Square Error) 均方根误差</h2><p>RMSE是MSE值的开方，衡量观察值和真实值之间的偏差，常用作机器学习模型预测结果的衡量标准。</p>
-<p>$$<br>RMSE &#x3D; \sqrt{\frac{1}{n} \sum_{i&#x3D;1}^{n} (y_i - \hat{y}_i)^2}<br>$$</p>
-<p>RMSE值的阈值：</p>
-<pre><code>- RMSE值越小，预测模型准确度越高
-- RMSE值低于数据标准差10%，则可被认为是一种较好的预测模型
-- RMSE在数据集是正态分布的情况下，则是一个合适的评价标准；RMSE在数据集中离群点较多或者存在其他异常情况下，则不太合适
-</code></pre>
-<h2 id="MAE-Mean-Absolute-Error-平均绝对误差"><a href="#MAE-Mean-Absolute-Error-平均绝对误差" class="headerlink" title="MAE (Mean Absolute Error) 平均绝对误差"></a>MAE (Mean Absolute Error) 平均绝对误差</h2><p>MAE是绝对误差的平均值，反映预测值误差的实际情况。</p>
-<p>$$<br>MAE &#x3D; \frac{1}{n} \sum_{i&#x3D;1}^{n} |y_i - \hat{y}_i|<br>$$</p>
-<h2 id="RMSLE-Root-Mean-Squared-Logarithmic-Error-均方根对数误差"><a href="#RMSLE-Root-Mean-Squared-Logarithmic-Error-均方根对数误差" class="headerlink" title="RMSLE (Root Mean Squared Logarithmic Error) 均方根对数误差"></a>RMSLE (Root Mean Squared Logarithmic Error) 均方根对数误差</h2><p>RMSLE关注相对误差：</p>
-<pre><code>- 对数误差能降低数值较大的目标变量的影响，使得评估过程更关注相对误差
-- 平方根误差可以放大小误差，更有助于模型拟合数据
-- 对数均方根误差不适用于目标变量存在负值的情况
-</code></pre>
-<p>$$<br>RMSLE &#x3D; \sqrt{\frac{1}{n} \sum_{i&#x3D;1}^{n} \left( \log(\hat{y}_i + 1) - \log(y_i + 1) \right)^2}<br>$$</p>
-<h2 id="R2-可决系数"><a href="#R2-可决系数" class="headerlink" title="R2 可决系数"></a>R<sup>2</sup> 可决系数</h2><p>R<sup>2</sup>是拟合优度，反映的是自变量X对因变量y的变动的解释程度，越接近于1，说明模型拟合越好。</p>
-<p>$$<br>R^2 &#x3D; 1 - \frac{SS_{res}}{SS_{tot}}<br>$$</p>
-<p>SS<sub>res</sub>是残差平方和，衡量了观测值与模型预测值之间的偏差</p>
-<p>$$<br>SS_{res} &#x3D; \sum_{i&#x3D;1}^{n} (y_i - \hat{y}_i)^2<br>$$</p>
-<p>SS<sub>tot</sub>是总平方和，衡量了因变量的总方差。</p>
-<p>$$<br>SS_{tot} &#x3D; \sum_{i&#x3D;1}^{n} (y_i - \bar{y})^2<br>$$</p>
-]]></content>
-      <categories>
-        <category>Model</category>
-      </categories>
-      <tags>
-        <tag>Model_train</tag>
-        <tag>Regression</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>pyCirclize</title>
-    <url>/2024/06/02/packages/pyCirclize/pycirclize/</url>
-    <content><![CDATA[<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><ul>
-<li><p><a href="https://github.com/moshi4/pycirclize">github</a>: <a href="https://github.com/moshi4/pycirclize">https://github.com/moshi4/pycirclize</a></p>
-</li>
-<li><p><a href="https://moshi4.github.io/pyCirclize/">documentation</a>: <a href="https://moshi4.github.io/pyCirclize/">https://moshi4.github.io/pyCirclize/</a></p>
-</li>
-</ul>
-<h2 id="install"><a href="#install" class="headerlink" title="install"></a>install</h2><h3 id="pip"><a href="#pip" class="headerlink" title="pip"></a>pip</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">pip install pycirclize</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>packages</category>
-      </categories>
-      <tags>
-        <tag>plot</tag>
       </tags>
   </entry>
 </search>
